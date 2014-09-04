@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<setting>
+		<username>alvinyao-campray</username>
+		<password>lyyao105</password>
+		<rootpath>E:\GitFile</rootpath>
+	</setting>
+	<prolist>
+		<project name="e-library" mode="dev" enable="true">
+			<giturl>https://github.com/mydipcom/source.git</giturl>
+			<homepath>source</homepath>
+			<propath>source\ecp\ECP_eLibrary</propath>
+			<slnpath>ECP_eLibrary.sln</slnpath>
+			<csprojpath>Presentation\ECP.Web\ECP.Web.csproj</csprojpath>
+			<websitepath>e:\website\elibrary</websitepath>
+			<backupdir></backupdir>
+		</project>
+		<project name="uswop" mode="demo" enable="true">
+			<giturl>https://github.com/mydipcom/source.git</giturl>
+			<homepath>source</homepath>
+			<propath>source\ecp\DIP_USWOP</propath>
+			<slnpath>USWOP.sln</slnpath>
+			<csprojpath>Presentation\DIPSky.Web\DIPSky.Web.csproj</csprojpath>
+			<websitepath>e:\website\uswop</websitepath>
+			<backupdir>Content\images</backupdir>
+			<!--dbfile>
+				<source>uswop\Settings.txt</source>
+				<target>App_Data\Settings.txt</target>
+			</dbfile-->
+		</project>
+		<project name="doc" mode="demo" enable="true">
+			<giturl>https://github.com/mydipcom/doc.git</giturl>
+			<homepath>doc</homepath>
+			<propath>doc</propath>
+			<slnpath></slnpath>
+			<csprojpath></csprojpath>
+			<websitepath></websitepath>
+			<backupdir></backupdir>
+		</project>
+	</prolist>
+</root>
