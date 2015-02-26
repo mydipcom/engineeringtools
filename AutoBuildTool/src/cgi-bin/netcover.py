@@ -1,8 +1,7 @@
 import cgi, cgitb ,re
 
 
-htmlfile = r'C:\Website Group\campray\%s.html'
-
+page = r'C:\Website Group\campray\bug.html'
 content = """
 <html>
 <head>
@@ -17,17 +16,16 @@ if __name__ == '__main__':
     print 'Content-Type: text/html\n\n'
     try:
         form = cgi.FieldStorage()
-        for name in form.keys():
-            if name in ['bug','uswop','sponsor1']:
-                value = form[name].value
-                express = r"(\d+\.\d+\.\d+\.\d+):(.+)"
-                mo = re.search(express ,value)
-                if mo:
-                    file = open(htmlfile%name,"w")
-                    file.write(content%value)
-                    file.close()
-                    print name+":succeed!"   
-                else:
-                    print name+':failed!'
+        if form.has_key("address") and form["address"].value != "":   
+            address = form["address"].value
+            express = r"(\d+\.\d+\.\d+\.\d+):(.+)"
+            mo = re.search(express ,address)
+            if mo:
+                file = open(page,"w")
+                file.write(content%address)
+                file.close()
+                print "succeed!"   
+            else:
+                print 'failed!'
     except:
         print "exception!"

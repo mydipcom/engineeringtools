@@ -3,39 +3,49 @@
 	<setting>
 		<username>alvinyao-campray</username>
 		<password>lyyao105</password>
-		<rootpath>E:\GitFile</rootpath>
+		<rootpath>C:\AutoBuild\GitFile</rootpath>
 	</setting>
 	<prolist>
-		<project name="e-library" mode="dev" enable="true">
-			<giturl>https://github.com/mydipcom/source.git</giturl>
-			<homepath>source</homepath>
-			<propath>source\ecp\ECP_eLibrary</propath>
+		<project name="e-library" schema="c#" mode="demo" enable="true">
+			<giturl>https://github.com/mydipcom/toelibraryweb.git</giturl>
+			<homepath>toelibraryweb</homepath>
+			<propath>toelibraryweb\ECP_eLibrary</propath>
 			<slnpath>ECP_eLibrary.sln</slnpath>
 			<csprojpath>Presentation\ECP.Web\ECP.Web.csproj</csprojpath>
-			<websitepath>e:\website\elibrary</websitepath>
-			<backupdir></backupdir>
+			<websitepath>C:\Website Group\elibrary</websitepath>
+            <backupdir>Content\EpubFile;Content\images</backupdir>
+			<dbfile>
+				<source>eLibrary\Settings.txt</source>
+				<target>App_Data\Settings.txt</target>
+			</dbfile>
 		</project>
-		<project name="uswop" mode="demo" enable="true">
-			<giturl>https://github.com/mydipcom/source.git</giturl>
-			<homepath>source</homepath>
-			<propath>source\ecp\DIP_USWOP</propath>
+		<project name="uswop" schema="c#" mode="demo" enable="true">
+			<giturl>https://github.com/mydipcom/uswop.git</giturl>
+			<homepath>uswop</homepath>
+			<propath>uswop</propath>
 			<slnpath>USWOP.sln</slnpath>
 			<csprojpath>Presentation\DIPSky.Web\DIPSky.Web.csproj</csprojpath>
-			<websitepath>e:\website\uswop</websitepath>
-			<backupdir>Content\images</backupdir>
-			<!--dbfile>
+			<websitepath>C:\Website Group\uswop</websitepath>
+            <backupdir></backupdir>
+			<dbfile>
 				<source>uswop\Settings.txt</source>
 				<target>App_Data\Settings.txt</target>
-			</dbfile-->
+			</dbfile>
 		</project>
-		<project name="doc" mode="demo" enable="true">
+        <project name="mpos" schema="java" mode="dev" enable="true">
+			<giturl>https://github.com/mydipcom/mpos.git</giturl>
+			<homepath>mpos</homepath>
+			<propath>mpos\mpos</propath>	
+			<backupdir></backupdir>
+			<websitepath>C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps</websitepath>	
+		</project>
+		<project name="doc" schema="doc" mode="demo"  enable="false">
 			<giturl>https://github.com/mydipcom/doc.git</giturl>
 			<homepath>doc</homepath>
 			<propath>doc</propath>
 			<slnpath></slnpath>
 			<csprojpath></csprojpath>
 			<websitepath></websitepath>
-			<backupdir></backupdir>
 		</project>
 	</prolist>
 </root>

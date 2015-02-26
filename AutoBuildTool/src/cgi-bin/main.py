@@ -92,7 +92,22 @@ class autoBuild():
             if os.path.isfile(logpath):
                 print "<br><strong><a href='%s'>查看构建日志</a></strong>" % ("./Log/" + os.path.split(logpath)[1])
             return result
-   
+            
+        def doMavenBuild(websitepath, logpath):
+            os.chdir(propath)
+            print os.getcwd()
+            if os.path.isfile(logpath):
+                os.remove(logpath)
+            cmd = "mvn clean package" + ' >> "%s"'% logpath
+            result = executeCmd(cmd)
+            if os.path.isfile(logpath):
+                print "<br><strong><a href='%s'>查看构建日志</a></strong>" % ("./Log/" + os.path.split(logpath)[1])
+            if result:
+                sourcefile = os.path.join(os.getcwd(),"target")+"\\mpos.war"
+                targetfile = websitepath+"\\mpos.war"
+                cmd = 'copy /y "%s" "%s"' % (sourcefile, targetfile)
+                result = executeCmd(cmd)
+            return result
             
         try:
             for pro in self.prolist:
@@ -101,6 +116,7 @@ class autoBuild():
                     os.chdir(os.path.dirname(sys.argv[0]))
                     proname = pro['a']['name']
                     mode = pro['a']['mode']
+                    schema = pro['a']['schema']
                     homepath = os.path.join(self.rootpath, pro['v']['homepath']['v'])
                     propath = os.path.join(self.rootpath, pro['v']['propath']['v'])
                     logpath = os.path.abspath("./Log/" + proname + '.txt')
@@ -116,14 +132,9 @@ class autoBuild():
                     if pullResult == True:
                         print"<br>----------"
                         buildResult = False
-                        websitepath = pro.get('v').get('websitepath').get('v')
-                        slnpath = pro.get('v').get('slnpath').get('v')
-                        csprojpath = pro.get('v').get('csprojpath').get('v')
                         backupdirs = pro['v']['backupdir']['v']
                         backupdirList = backupdirs.split(";") if backupdirs != None else None
-                        if csprojpath == None or websitepath == None:
-                            print "<br>未配置,不进行构建"
-                            break
+                        websitepath = pro.get('v').get('websitepath').get('v')
                         #备份目录
                         if not backupdirs == None:
                             os.chdir(os.path.dirname(sys.argv[0]))
@@ -140,10 +151,24 @@ class autoBuild():
                                 else:
                                     print '<br><strong style="color:red">结果：< 备份失败 > 请检查目录是否正确！</strong><br>'
                                     return
-                        print"<br>----------" 
-                        print "<br><strong>开始构建</strong>"
-                        print ""
-                        buildResult = doMsBuild(os.path.join(propath, slnpath), os.path.join(propath, csprojpath), websitepath, logpath)
+                        #构建C#项目
+                        if schema == "c#":
+                            slnpath = pro.get('v').get('slnpath').get('v')
+                            csprojpath = pro.get('v').get('csprojpath').get('v')
+                            
+                            if csprojpath == None or websitepath == None:
+                                print "<br>未配置,不进行构建"
+                                break
+                            
+                            print"<br>----------" 
+                            print "<br><strong>开始构建</strong>"
+                            print ""
+                            buildResult = doMsBuild(os.path.join(propath, slnpath), os.path.join(propath, csprojpath), websitepath, logpath)
+                        elif schema =="java":
+                            if websitepath == None:
+                                print "<br>未配置,不进行构建"
+                                break
+                            buildResult = doMavenBuild(websitepath,logpath)
                         #buildResult = True  # 构建结果
                         print ""
                         if buildResult == True:
@@ -172,21 +197,25 @@ class autoBuild():
                                 executeCmd(cmd)
                             print"<br>----------"
                             print "<br><strong>版本信息</strong>"
+                            pushResult = False;
                             if mode == 'dev':
                                 buildInfoFilePath = os.path.join(propath, 'BuildInfo.txt')
                                 if os.path.isfile(buildInfoFilePath):
                                     with open(buildInfoFilePath, "r") as buildInfoFile:
                                         lines = buildInfoFile.readlines()
-                                    numTemp = lines[0].strip().split(".")
-                                    numTemp[-1] = str(eval(numTemp[-1]) + 1)
-                                    buildNum = '.'.join(numTemp)
+                                    #numTemp = lines[0].strip().split(".")
+                                    #numTemp[-1] = str(eval(numTemp[-1]) + 1)
+                                    #buildNum = '.'.join(numTemp)
+                                    buildNum = "N/A"
                                     localTime = time.strftime('%Y-%m-%d %H:%M:%S %Z', time.localtime(time.time()))
                                     print '<br><strong style="color:green">构建后版本：%s</strong><br>' % buildNum
                                     print '<br><strong style="color:green">构建完时间：%s</strong><br>' % localTime
-                                    infoText = buildNum + "\n" + localTime
+                                    #infoText = buildNum + "\n" + localTime
+                                    infoText = localTime;
                                     with open(buildInfoFilePath, "w") as buildInfoFile:
                                         buildInfoFile.write(infoText)
-                                    pushResult = doGit('push', homepath, buildInfoFilePath)
+                                    #pushResult = doGit('push', homepath, buildInfoFilePath)
+                                    pushResult = True
                             else:
                                 buildInfoFilePath = os.path.join(propath, 'BuildInfo.txt')
                                 if os.path.isfile(buildInfoFilePath):
@@ -204,7 +233,7 @@ class autoBuild():
                                 print "<br>生成文件:BuildInfo.html"
                     print "<br><strong>任务结束</strong>"
         except Exception, e:
-            print "<br>%s" % ('异常信息'.center(40, "*"))
+            print "<br>%s<br>" % ('异常信息'.center(40, "*"))
             print e
         print "<br><h3>", "".center(50, "="), "</h3>"
 

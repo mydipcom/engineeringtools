@@ -31,9 +31,9 @@ def printPage():
     print '</form></center><hr>'
     
 def dbOperation(email):
-    Servername = "CR-Server1\SQLEXPRESS"
-    Username = "elibrary"
-    Password = "elibrary"
+    Servername = "VPSSKY\SQLEXPRESS"
+    Username = "sa"
+    Password = "1111111a"
     DBname = "elibrary"
     try:
 #        conn = pymssql.connect(host=Host,user=Username,password=Password,database=DBname)
