@@ -1,0 +1,14 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.campraynotice.dto">
+	<class name="Setting">
+		<id name="id">
+			<generator class="native"></generator>
+		</id>
+		<property name="name"></property>
+		
+		<property name="value"></property>
+		
+		
+	</class>
+
+</hibernate-mapping>
